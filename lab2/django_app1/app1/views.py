@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'app1/index.html')
+    return render(request, 'app1/index.html')  # تأكد من وجود هذا القالب
