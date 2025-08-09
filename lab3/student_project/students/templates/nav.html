@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <i class="fas fa-graduation-cap fa-2x me-2"></i>
+            <h3 class="mb-0">نظام إدارة الطلاب</h3>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="fas fa-home me-1"></i> الرئيسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'all_students' %}">
+                        <i class="fas fa-users me-1"></i> جميع الطلاب
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add_student' %}">
+                        <i class="fas fa-plus me-1"></i> إضافة طالب
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'edit_student_search' %}">
+                        <i class="fas fa-edit me-1"></i> تعديل طالب
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'delete_student_search' %}">
+                        <i class="fas fa-trash-alt me-1"></i> حذف طالب
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">
+                        <i class="fas fa-chart-bar me-1"></i> لوحة التحكم
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'settings' %}">
+                        <i class="fas fa-cog me-1"></i> الإعدادات
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

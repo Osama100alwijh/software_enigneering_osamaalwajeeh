@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}تعديل طالب{% endblock %}
+{% block header_title %}
+{% if student %}
+    تعديل بيانات طالب: {{ student.name }}
+{% else %}
+    تعديل بيانات طالب
+{% endif %}
+{% endblock %}
+{% block header_description %}البحث عن طالب باستخدام رقمه الجامعي وتعديل بياناته{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        {% if student %}
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-warning text-dark text-center rounded-top-3">
+                    <i class="fas fa-edit fa-lg me-2"></i> تعديل بيانات الطالب
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" class="row g-3">
+                        {% csrf_token %}
+                        <!-- هنا يتم عرض حقول النموذج -->
+                        <div class="col-md-12 mb-3">
+                            <label for="id_name" class="form-label">الاسم الكامل:</label>
+                            <input type="text" class="form-control" id="id_name" name="name" value="{{ student.name }}" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_email" class="form-label">البريد الإلكتروني:</label>
+                            <input type="email" class="form-control" id="id_email" name="email" value="{{ student.email }}" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_phone" class="form-label">رقم الهاتف:</label>
+                            <input type="text" class="form-control" id="id_phone" name="phone" value="{{ student.phone }}" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_gpa" class="form-label">المعدل التراكمي:</label>
+                            <input type="number" step="0.01" class="form-control" id="id_gpa" name="gpa" value="{{ student.gpa }}" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_college" class="form-label">الكلية:</label>
+                            <input type="text" class="form-control" id="id_college" name="college" value="{{ student.college }}" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_address" class="form-label">العنوان:</label>
+                            <input type="text" class="form-control" id="id_address" name="address" value="{{ student.address }}" required>
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="btn btn-warning btn-lg w-75">
+                                <i class="fas fa-save me-2"></i> حفظ التعديلات
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <!-- نموذج البحث عن طالب -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white text-center">
+                    <i class="fas fa-search fa-lg me-2"></i> البحث عن طالب
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'edit_student_search' %}" class="row g-3">
+                        {% csrf_token %}
+                        <div class="col-md-8">
+                            <label for="student_id" class="form-label">الرقم الجامعي:</label>
+                            <input type="text" class="form-control form-control-lg" id="student_id" name="student_id" required
+                                   placeholder="أدخل الرقم الجامعي للطالب">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-search me-2"></i> بحث
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

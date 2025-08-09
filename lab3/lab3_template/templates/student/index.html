@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block blockname %}
+    
+<p>العمر الأصلي: {{ age }}</p>
+<p>العمر مضاعف: {{ age|double }}</p>
+<p>العمر بالريال: {{ age|format_riyals }}</p>
+<p>تصنيف العمر: {{ age|age_label }}</p>
+
+    
+
+{% comment %} <body>
+
+  <h2>فلاتر النصوص</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>النص قبل الفلترة</th>
+        <th>النص بعد الفلترة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>{{name}}</td>
+        <td>{{ name | upper }}</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>{{name}}</td>
+        <td>{{ name | lower }}</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>{{name}}</td>
+        <td>{{ name | title }}</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>{{name}}</td>
+        <td>{{ name | truncatechars:10 }}</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>{{ name1 }}</td>
+        <td>{{ name1 | default:"غير متوفر" }}</td>
+      </tr>
+    </tbody>
+  </table>
+<hr>
+  <h2>فلاتر الأرقام في Django Template</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>النص قبل الفلترة</th>
+                <th>النص بعد الفلترة</th>
+                <th>اسم الفلتر</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ age }}</td>
+                <td>{{ age|add:"10" }}</td>
+                <td>add:"10"</td>
+            </tr>
+            <tr>
+                <td>{{ age }}</td>
+                <td>{{ age|divisibleby:"5" }}</td>
+                <td>divisibleby:"5"</td>
+            </tr>
+            <tr>
+                <td>{{ age }}</td>
+                <td>{{ age|stringformat:"d" }}</td>
+                <td>stringformat:"d"</td>
+            </tr>
+            <tr>
+                <td>{{ age }}</td>
+                <td>{{ age|floatformat:2 }}</td>
+                <td>floatformat:2</td>
+            </tr>
+            <tr>
+                <td>{{ age }}</td>
+                <td>{{ age|filesizeformat }}</td>
+                <td>filesizeformat</td>
+            </tr>
+            <tr>
+                <td>{{ age }}</td>
+                <td>{{ age|default:"notthing" }}</td>
+                <td>intcomma</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    <hr>
+    <h2>فلاتر التاريخ - Django Template Language</h2>
+<table>
+    <caption>جدول تنسيقات التاريخ باستخدام فلتر <code>date</code></caption>
+    <thead>
+        <tr>
+            <th>التنسيق</th>
+            <th>الوصف</th>
+            <th>النتيجة (مثال)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>{{ date_obj|date:"Y-m-d" }}</code></td>
+            <td>سنة-شهر-يوم</td>
+            <td>2025-08-02</td>
+        </tr>
+        <tr>
+            <td><code>{{ date_obj|date:"d/m/Y" }}</code></td>
+            <td>يوم/شهر/سنة</td>
+            <td>02/08/2025</td>
+        </tr>
+        <tr>
+            <td><code>{{ date_obj|date:"l" }}</code></td>
+            <td>اسم اليوم كاملاً</td>
+            <td>Saturday</td>
+        </tr>
+        <tr>
+            <td><code>{{ date_obj|date:"F j, Y" }}</code></td>
+            <td>شهر (اسم) يوم، سنة</td>
+            <td>August 2, 2025</td>
+        </tr>
+        <tr>
+            <td><code>{{ date_obj|time:"H:i:s" }}</code></td>
+            <td>الوقت (ساعة:دقيقة:ثانية)</td>
+            <td>23:15:42</td>
+        </tr>
+        <tr>
+            <td><code>{{ date_obj|date:"r" }}</code></td>
+            <td>تنسيق RFC 2822</td>
+            <td>Sat, 02 Aug 2025 23:15:42 +0000</td>
+        </tr>
+        <tr>
+            <td><code>{{ date_obj|date:"c" }}</code></td>
+            <td>تنسيق ISO 8601</td>
+            <td>2025-08-02T23:15:42+00:00</td>
+        </tr>
+    </tbody>
+</table>
+<hr> {% endcomment %}
+
+{%endblock%}
+
+
+
+
+{% comment %} 
+<h1>helle all student </h1>
+<hr>
+<p>{{name}}</p>
+filter lower={{name|lower}}
+
+<hr>
+
+<p>{{name}}</p>
+filter upper={{name|lower}}
+
+<hr>
+
+
+<p>{{name}}</p>
+filter upper={{name|lower}}
+
+<hr>
+
+
+<p>{{name}}</p>
+filter upper={{name|lower}}
+
+<hr>
+
+
+<p>{{name}}</p>
+filter upper={{name|lower}}
+
+<hr>
+
+
+
+
+
+
+<hr>
+name={{name|length}}
+
+<hr>
+<hr>
+name={{name|cut:'o'}}
+<hr>
+<hr>
+name={{name|slice:'6:9'}}
+<hr>
+<hr>
+name={{name|add:'salah'}}
+<hr>
+age={{age|filesizeformat}}
+job={{job}}
+{% endblock blockname %} {% endcomment %}

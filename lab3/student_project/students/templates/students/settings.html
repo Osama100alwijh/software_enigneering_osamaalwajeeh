@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}إعدادات النظام{% endblock %}
+{% block header_title %}إعدادات النظام{% endblock %}
+{% block header_description %}تخصيص النظام وفقاً لاحتياجاتك{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-cog me-2"></i> قائمة الإعدادات
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#general" class="list-group-item list-group-item-action active" data-bs-toggle="tab">
+                    <i class="fas fa-sliders-h me-2"></i> الإعدادات العامة
+                </a>
+                <a href="#notifications" class="list-group-item list-group-item-action" data-bs-toggle="tab">
+                    <i class="fas fa-bell me-2"></i> الإشعارات
+                </a>
+                <a href="#appearance" class="list-group-item list-group-item-action" data-bs-toggle="tab">
+                    <i class="fas fa-palette me-2"></i> المظهر
+                </a>
+                <a href="#security" class="list-group-item list-group-item-action" data-bs-toggle="tab">
+                    <i class="fas fa-shield-alt me-2"></i> الأمان
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="general" role="tabpanel">
+                        <h5>الإعدادات العامة</h5>
+                        <hr>
+                        <form>
+                            <div class="mb-3">
+                                <label for="systemName" class="form-label">اسم النظام</label>
+                                <input type="text" class="form-control" id="systemName" value="نظام إدارة الطلاب">
+                            </div>
+                            <div class="mb-3">
+                                <label for="studentsPerPage" class="form-label">عدد الطلاب في الصفحة</label>
+                                <input type="number" class="form-control" id="studentsPerPage" value="5">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">حفظ التغييرات</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="notifications" role="tabpanel">
+                        <h5>إعدادات الإشعارات</h5>
+                        <hr>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                            <label class="form-check-label" for="emailNotifications">إرسال إشعارات عبر البريد الإلكتروني</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="smsNotifications">
+                            <label class="form-check-label" for="smsNotifications">إرسال إشعارات عبر الرسائل النصية</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">حفظ التغييرات</button>
+                    </div>
+                    <div class="tab-pane fade" id="appearance" role="tabpanel">
+                        <h5>إعدادات المظهر</h5>
+                        <hr>
+                        <p class="mb-3">اختر مظهر النظام:</p>
+                        <div class="d-flex gap-3">
+                            <div class="theme-option active" data-theme="light">
+                                <div class="theme-icon light"></div>
+                                <span>فاتح</span>
+                            </div>
+                            <div class="theme-option" data-theme="dark">
+                                <div class="theme-icon dark"></div>
+                                <span>داكن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="security" role="tabpanel">
+                        <h5>إعدادات الأمان</h5>
+                        <hr>
+                        <form>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">تغيير كلمة المرور</label>
+                                <input type="password" class="form-control" id="password" placeholder="أدخل كلمة المرور الجديدة">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="أعد إدخال كلمة المرور الجديدة">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">حفظ التغييرات</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom styles for settings page */
+    .theme-option {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        padding: 10px;
+        transition: all 0.3s ease;
+    }
+    .theme-option.active {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+    }
+    .theme-icon {
+        width: 60px;
+        height: 40px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        border: 1px solid #ccc;
+    }
+    .theme-icon.light {
+        background: linear-gradient(to right, #f8f9fa 50%, #e9ecef 50%);
+    }
+    .theme-icon.dark {
+        background: linear-gradient(to right, #212529 50%, #343a40 50%);
+    }
+    /* Dark mode styles */
+    [data-theme='dark'] {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+    [data-theme='dark'] .navbar,
+    [data-theme='dark'] .card,
+    [data-theme='dark'] .modal-content,
+    [data-theme='dark'] .list-group-item {
+        background-color: #1e1e1e !important;
+        border-color: #333 !important;
+        color: #e0e0e0 !important;
+    }
+    [data-theme='dark'] .form-control {
+        background-color: #333;
+        color: #e0e0e0;
+        border-color: #555;
+    }
+    [data-theme='dark'] .form-control:focus {
+        background-color: #444;
+        color: #e0e0e0;
+        border-color: #666;
+    }
+    [data-theme='dark'] .list-group-item.active {
+        background-color: var(--bs-primary) !important;
+    }
+    [data-theme='dark'] .navbar-brand,
+    [data-theme='dark'] .nav-link {
+        color: #fff !important;
+    }
+    [data-theme='dark'] .header h1,
+    [data-theme='dark'] .header p {
+        color: #f8f9fa !important;
+    }
+</style>
+<script>
+    // عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        // تحديد جميع خيارات المظهر
+        const themeOptions = document.querySelectorAll('.theme-option');
+        // الحصول على المظهر المحفوظ من التخزين المحلي، أو استخدام 'light' كقيمة افتراضية
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        // تطبيق المظهر المحفوظ على العنصر <html>
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // إضافة مستمع حدث لكل خيار مظهر
+        themeOptions.forEach(option => {
+            // تفعيل فئة 'active' على الخيار المطابق للمظهر المحفوظ
+            if (option.getAttribute('data-theme') === savedTheme) {
+                option.classList.add('active');
+            }
+            option.addEventListener('click', () => {
+                // الحصول على قيمة المظهر من العنصر الذي تم النقر عليه
+                const theme = option.getAttribute('data-theme');
+                // تطبيق المظهر الجديد على العنصر <html>
+                document.documentElement.setAttribute('data-theme', theme);
+                // حفظ المظهر الجديد في التخزين المحلي
+                localStorage.setItem('theme', theme);
+
+                // إزالة فئة 'active' من جميع الخيارات
+                themeOptions.forEach(o => o.classList.remove('active'));
+                // إضافة فئة 'active' إلى الخيار الذي تم النقر عليه
+                option.classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %}

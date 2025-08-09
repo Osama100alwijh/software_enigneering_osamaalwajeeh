@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}لوحة التحكم{% endblock %}
+{% block header_title %}لوحة التحكم الرئيسية{% endblock %}
+{% block header_description %}نظرة عامة على نظام إدارة الطلاب{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- إحصائيات سريعة -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-primary border-5 h-100 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-primary fw-bold">إجمالي الطلاب</div>
+                        <div class="h2 mb-0 fw-bold">{{ total_students }}</div>
+                        <div class="small text-success">
+                            <i class="fas fa-arrow-up me-1"></i> 5.2% منذ الشهر الماضي
+                        </div>
+                    </div>
+                    <div class="bg-primary text-white p-3 rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-success border-5 h-100 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-success fw-bold">أعلى معدل تراكمي</div>
+                        <div class="h2 mb-0 fw-bold">{{ highest_gpa }}</div>
+                        <div class="small text-danger">
+                            <i class="fas fa-arrow-down me-1"></i> 1.5% منذ الشهر الماضي
+                        </div>
+                    </div>
+                    <div class="bg-success text-white p-3 rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="fas fa-trophy fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-warning border-5 h-100 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-warning fw-bold">متوسط المعدل التراكمي</div>
+                        <div class="h2 mb-0 fw-bold">{{ average_gpa }}</div>
+                        <div class="small text-success">
+                            <i class="fas fa-arrow-up me-1"></i> 0.8% منذ الشهر الماضي
+                        </div>
+                    </div>
+                    <div class="bg-warning text-white p-3 rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-info border-5 h-100 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-info fw-bold">متوسط العمر</div>
+                        <div class="h2 mb-0 fw-bold">21.5</div>
+                        <div class="small text-success">
+                            <i class="fas fa-arrow-up me-1"></i> 0.2% منذ الشهر الماضي
+                        </div>
+                    </div>
+                    <div class="bg-info text-white p-3 rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="fas fa-birthday-cake fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- الرسوم البيانية -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">
+                توزيع الطلاب حسب الكليات
+            </div>
+            <div class="card-body">
+                <canvas id="collegeChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">
+                توزيع المعدلات التراكمية
+            </div>
+            <div class="card-body">
+                <canvas id="gpaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const collegeData = {
+            labels: JSON.parse('{{ college_labels|safe }}'),
+            values: JSON.parse('{{ college_counts|safe }}')
+        };
+        
+        const gpaData = {
+            labels: JSON.parse('{{ gpa_labels|safe }}'),
+            values: JSON.parse('{{ gpa_values|safe }}')
+        };
+
+        const collegeCtx = document.getElementById('collegeChart').getContext('2d');
+        const collegeChart = new Chart(collegeCtx, {
+            type: 'bar',
+            data: {
+                labels: collegeData.labels,
+                datasets: [{
+                    label: 'عدد الطلاب',
+                    data: collegeData.values,
+                    backgroundColor: [
+                        '#0d6efd',
+                        '#198754',
+                        '#ffc107',
+                        '#6c757d',
+                        '#0dcaf0',
+                    ],
+                    borderColor: [
+                        '#0d6efd',
+                        '#198754',
+                        '#ffc107',
+                        '#6c757d',
+                        '#0dcaf0',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        const gpaCtx = document.getElementById('gpaChart').getContext('2d');
+        const gpaChart = new Chart(gpaCtx, {
+            type: 'doughnut',
+            data: {
+                labels: gpaData.labels,
+                datasets: [{
+                    label: 'عدد الطلاب',
+                    data: gpaData.values,
+                    backgroundColor: [
+                        '#4CAF50',
+                        '#8BC34A',
+                        '#FFC107',
+                        '#FF9800',
+                        '#FF5722',
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

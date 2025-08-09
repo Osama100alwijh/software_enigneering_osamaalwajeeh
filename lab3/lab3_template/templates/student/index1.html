@@ -1,0 +1,7 @@
+{% load custom_filters %}
+{%block cost%}
+<p>العمر الأصلي: {{ age }}</p>
+<p>العمر مضاعف: {{ age|double }}</p>
+<p>العمر بالريال: {{ age|format_riyals }}</p>
+<p>تصنيف العمر: {{ age|age_label }}</p>
+{%endblock%}
