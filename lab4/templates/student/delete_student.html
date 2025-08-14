@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}حذف طالب{% endblock %}
+{% block header_title %}حذف طالب من النظام{% endblock %}
+{% block header_description %}البحث عن طالب باستخدام رقمه الجامعي وحذفه من النظام{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <!-- نموذج البحث عن طالب -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-primary text-white text-center">
+                <i class="fas fa-search fa-lg me-2"></i> البحث عن طالب
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'delete_student_search' %}" class="row g-3">
+                    {% csrf_token %}
+                    <div class="col-md-8">
+                        <label for="student_id" class="form-label">الرقم الجامعي:</label>
+                        <input type="text" class="form-control form-control-lg" id="student_id" name="student_id" required
+                               placeholder="أدخل الرقم الجامعي للطالب">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-search me-2"></i> بحث
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- تأكيد الحذف يظهر فقط بعد العثور على طالب -->
+        {% if student %}
+        <div class="card mt-4 shadow-sm border-0">
+            <div class="card-body text-center">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <i class="fas fa-exclamation-triangle text-danger fa-4x me-3"></i>
+                    <div>
+                        <h4 class="card-title text-danger">تأكيد حذف الطالب</h4>
+                        <p class="card-text fs-5">
+                            هل أنت متأكد أنك تريد حذف الطالب <span class="fw-bold">{{ student.name }}</span> بشكل دائم؟
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'all_students' %}" class="btn btn-secondary me-3">
+                    <i class="fas fa-times me-2"></i> إلغاء
+                </a>
+                <form method="POST" action="{% url 'delete_student' student.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i> تأكيد الحذف
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

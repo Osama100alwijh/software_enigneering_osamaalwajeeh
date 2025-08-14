@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}الصفحة الرئيسية - المعلمين{% endblock %}
+{% block header_title %}مرحباً بك في نظام إدارة المعلمين{% endblock %}
+{% block header_description %}منصة متكاملة لإدارة بيانات المعلمين بسهولة وكفاءة{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Teacher Management Section -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100 shadow-lg border-0 rounded-3">
+            <div class="card-header bg-success text-white d-flex align-items-center rounded-top-3">
+                <i class="fas fa-chalkboard-teacher fa-2x me-2"></i>
+                <h5 class="mb-0">إدارة المعلمين</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">عرض وإضافة وتعديل وحذف بيانات المعلمين في النظام.</p>
+                <div class="list-group">
+                    <a href="{% url 'all_teachers' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-list me-2"></i> عرض جميع المعلمين
+                    </a>
+                    <a href="{% url 'add_teacher' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-plus-circle me-2"></i> إضافة معلم جديد
+                    </a>
+                    <a href="{% url 'edit_teacher_search' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-edit me-2"></i> تعديل بيانات معلم
+                    </a>
+                    <a href="{% url 'delete_teacher_search' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-trash-alt me-2"></i> حذف معلم
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Dashboard & Settings Section -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100 shadow-lg border-0 rounded-3">
+            <div class="card-header bg-info text-white d-flex align-items-center rounded-top-3">
+                <i class="fas fa-chart-bar fa-2x me-2"></i>
+                <h5 class="mb-0">إحصائيات النظام</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">عرض إحصائيات عامة حول المعلمين في النظام.</p>
+                <a href="{% url 'teacher_dashboard' %}" class="btn btn-info w-100 mt-2">
+                    عرض لوحة التحكم <i class="fas fa-arrow-left ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100 shadow-lg border-0 rounded-3">
+            <div class="card-header bg-secondary text-white d-flex align-items-center rounded-top-3">
+                <i class="fas fa-cog fa-2x me-2"></i>
+                <h5 class="mb-0">إعدادات النظام</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">تخصيص النظام وتغيير المظهر والإعدادات العامة.</p>
+                <a href="{% url 'teacher_settings' %}" class="btn btn-secondary w-100 mt-2">
+                    الانتقال إلى الإعدادات <i class="fas fa-arrow-left ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

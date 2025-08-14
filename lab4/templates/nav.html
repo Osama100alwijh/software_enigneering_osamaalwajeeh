@@ -1,0 +1,117 @@
+<!-- student/templates/student/nav.html -->
+<!-- شريط التنقل المحدث ليتضمن روابط إدارة الطلاب والمعلمين مع تحسينات في التصميم والوظائف. -->
+<!-- This updated navigation bar includes enhanced design, improved user experience, and a dynamic active link indicator. -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
+    <div class="container">
+        <!-- Brand/Logo and Title -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <i class="fas fa-graduation-cap fa-2x text-warning me-2"></i>
+            <h3 class="mb-0 fw-bold">نظام إدارة الطلاب والمعلمين</h3>
+        </a>
+        <!-- Toggler button for mobile view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <!-- The 'active' class is added dynamically to highlight the current page. -->
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %} hover-effect" aria-current="page" href="{% url 'home' %}">
+                        <i class="fas fa-home me-1"></i> الرئيسية
+                    </a>
+                </li>
+
+                <!-- Student Management Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if 'student' in request.resolver_match.url_name %}active{% endif %} hover-effect" href="#" id="studentDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-users me-1"></i> الطلاب
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark border-0 shadow-lg" aria-labelledby="studentDropdown">
+                        <li><a class="dropdown-item" href="{% url 'all_students' %}">جميع الطلاب</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_student' %}">إضافة طالب جديد</a></li>
+                        <li><a class="dropdown-item" href="{% url 'edit_student_search' %}">تعديل طالب</a></li>
+                        <li><a class="dropdown-item" href="{% url 'delete_student_search' %}">حذف طالب</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Teacher Management Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if 'teacher' in request.resolver_match.url_name %}active{% endif %} hover-effect" href="#" id="teacherDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-chalkboard-teacher me-1"></i> المعلمون
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark border-0 shadow-lg" aria-labelledby="teacherDropdown">
+                        <li><a class="dropdown-item" href="{% url 'all_teachers' %}">جميع المعلمين</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_teacher' %}">إضافة معلم جديد</a></li>
+                        <li><a class="dropdown-item" href="{% url 'edit_teacher_search' %}">تعديل معلم</a></li>
+                        <li><a class="dropdown-item" href="{% url 'delete_teacher_search' %}">حذف معلم</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %} hover-effect" href="{% url 'dashboard' %}">
+                        <i class="fas fa-chart-bar me-1"></i> لوحة التحكم
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %} hover-effect" href="{% url 'settings' %}">
+                        <i class="fas fa-cog me-1"></i> الإعدادات
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Custom styling for the navigation bar */
+    .navbar {
+        background-color: #212529; /* Darker background for a sleek look */
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .navbar-brand h3 {
+        font-size: 1.5rem;
+    }
+
+    .nav-link.hover-effect {
+        position: relative;
+        color: #e9ecef !important;
+        font-weight: 500; /* Adjusted font weight */
+    }
+
+    .nav-link.hover-effect::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #ffc107; /* A yellow color for emphasis */
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    .nav-link.hover-effect:hover::after, .nav-link.active::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .nav-link.active {
+        color: #ffc107 !important; /* Yellow text for the active link */
+        font-weight: bold;
+    }
+
+    .dropdown-menu {
+        background-color: #212529;
+    }
+    
+    .dropdown-item:hover {
+        background-color: #343a40;
+    }
+
+    .navbar-brand .fa-graduation-cap {
+        color: #ffc107;
+    }
+</style>

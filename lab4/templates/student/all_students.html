@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}جميع الطلاب{% endblock %}
+{% block header_title %}قائمة جميع الطلاب{% endblock %}
+{% block header_description %}إدارة وعرض بيانات الطلاب المسجلين في النظام{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-users fa-lg me-2"></i> بيانات الطلاب
+        </div>
+        <div class="d-flex gap-2">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchInput" placeholder="بحث عن طالب...">
+                <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+                <i class="fas fa-filter me-1"></i> تصفية
+            </button>
+            <button class="btn btn-success" id="exportBtn">
+                <i class="fas fa-file-export me-1"></i> تصدير
+            </button>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        {% if page_obj %}
+        <div class="table-responsive">
+            <table class="table table-hover table-striped" id="studentsTable">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col">الرقم الجامعي</th>
+                        <th scope="col">الاسم الكامل</th>
+                        <th scope="col">البريد الإلكتروني</th>
+                        <th scope="col">الكلية</th>
+                        <th scope="col">العمر</th>
+                        <th scope="col">المعدل التراكمي</th>
+                        <th scope="col">العنوان</th>
+                        <th scope="col">إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in page_obj %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.college }}</td>
+                        <td>{{ student.age }}</td>
+                        <td>{{ student.gpa }}</td>
+                        <td>{{ student.address }}</td>
+                        <td>
+                            <a href="{% url 'show_student' student.id %}" class="btn btn-info btn-sm" title="عرض">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'edit_student' student.id %}" class="btn btn-warning btn-sm" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'delete_student' student.id %}" class="btn btn-danger btn-sm" title="حذف">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            <i class="fas fa-info-circle fa-2x mb-2"></i>
+            <h4 class="alert-heading">لا يوجد طلاب مسجلين!</h4>
+            <p>لا توجد بيانات طلاب لعرضها في الوقت الحالي.</p>
+            <hr>
+            <p class="mb-0">يمكنك إضافة طالب جديد من <a href="{% url 'add_student' %}" class="alert-link">هنا</a>.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Paginator -->
+    <div class="card-footer">
+        {% if page_obj %}
+        {% include 'student/pagination.html' %}
+        {% endif %}
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">تصفية النتائج</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="cityFilter" class="form-label">المدينة</label>
+                    <select class="form-select" id="cityFilter">
+                        <option value="">كل المدن</option>
+                        <option value="الرياض">الرياض</option>
+                        <option value="جدة">جدة</option>
+                        <option value="الدمام">الدمام</option>
+                        <option value="المدينة">المدينة</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="minAge" class="form-label">الحد الأدنى للعمر</label>
+                        <input type="number" class="form-control" id="minAge" min="16" max="40">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="maxAge" class="form-label">الحد الأقصى للعمر</label>
+                        <input type="number" class="form-control" id="maxAge" min="16" max="40">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="applyFilters">تطبيق التصفية</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // وظيفة البحث الفوري
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#studentsTable tbody tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+    
+    // تطبيق التصفية
+    document.getElementById('applyFilters').addEventListener('click', function() {
+        const city = document.getElementById('cityFilter').value;
+        const minAge = document.getElementById('minAge').value;
+        const maxAge = document.getElementById('maxAge').value;
+        
+        const rows = document.querySelectorAll('#studentsTable tbody tr');
+        rows.forEach(row => {
+            const cityCell = row.cells[6].textContent; // Changed index to 6 for address
+            const age = parseInt(row.cells[4].textContent); // Changed index to 4 for age
+            
+            let show = true;
+            
+            if (city && cityCell !== city) show = false;
+            if (minAge && age < minAge) show = false;
+            if (maxAge && age > maxAge) show = false;
+            
+            row.style.display = show ? '' : 'none';
+        });
+        
+        // إغلاق المودال
+        const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
+        modal.hide();
+    });
+</script>
+{% endblock %}

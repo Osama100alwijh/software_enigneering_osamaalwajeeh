@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% comment %} {% include 'teacher/nav.html' %} {% endcomment %}
+
+{% block title %}حذف معلم{% endblock %}
+{% block header_title %}حذف معلم من النظام{% endblock %}
+{% block header_description %}البحث عن معلم باستخدام رقمه الجامعي وحذفه من النظام{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <!-- نموذج البحث عن معلم -->
+        {% if not teacher %}
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white text-center">
+                <i class="fas fa-search fa-lg me-2"></i> البحث عن معلم
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3" action="{% url 'delete_teacher' teacher_id=1 %}">
+                    {% csrf_token %}
+                    <div class="col-md-8">
+                        <label for="teacher_id" class="form-label">الرقم الجامعي:</label>
+                        <input type="text" class="form-control form-control-lg" id="teacher_id" name="teacher_id" required
+                               placeholder="أدخل الرقم الجامعي للمعلم">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-search me-2"></i> بحث
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- تأكيد الحذف يظهر فقط بعد العثور على معلم -->
+        {% if teacher %}
+        <div class="card mt-4 shadow-sm border-0">
+            <div class="card-body text-center">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <i class="fas fa-exclamation-triangle text-danger fa-4x me-3"></i>
+                    <div>
+                        <h4 class="card-title text-danger">تأكيد حذف المعلم</h4>
+                        <p class="card-text fs-5">
+                            هل أنت متأكد أنك تريد حذف المعلم <span class="fw-bold">{{ teacher.name }}</span> بشكل دائم؟
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'all_teachers' %}" class="btn btn-secondary me-3">
+                    <i class="fas fa-times me-2"></i> إلغاء
+                </a>
+                <form method="POST" action="{% url 'delete_teacher' teacher.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i> تأكيد الحذف
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
