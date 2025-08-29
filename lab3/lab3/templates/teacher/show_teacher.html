@@ -1,0 +1,83 @@
+    {% extends 'base.html' %}
+    
+    {% block title %}عرض معلم{% endblock %}
+    {% block header_title %}عرض بيانات معلم{% endblock %}
+    {% block header_description %}البحث عن معلم باستخدام رقمه وعرض بياناته{% endblock %}
+    
+    {% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Search form for a teacher -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <i class="fas fa-search fa-lg me-2"></i> البحث عن معلم
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'teacher_show_search' %}" class="row g-3">
+                        {% csrf_token %}
+                        <div class="col-md-8">
+                            <label for="teacher_id" class="form-label">الرقم المعرفي:</label>
+                            <input type="text" class="form-control form-control-lg" id="teacher_id" name="teacher_id" required
+                                   placeholder="أدخل الرقم المعرفي للمعلم">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-search me-2"></i> بحث
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+            {% if teacher %}
+            <div class="card mt-4 shadow-lg border-0 rounded-3">
+                <div class="card-header bg-info text-white text-center rounded-top-3">
+                    <i class="fas fa-chalkboard-teacher fa-lg me-2"></i> بيانات المعلم
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="https://placehold.co/150x150/1a73e8/fff?text={{ teacher.name|slice:":1" }}" class="rounded-circle mb-3" alt="Teacher Image">
+                            <h4 class="fw-bold">{{ teacher.name }}</h4>
+                            <p class="text-muted">{{ teacher.subject }}</p>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">الرقم المعرفي</label>
+                                    <p class="fs-5">{{ teacher.id }}</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">العمر</label>
+                                    <p class="fs-5">{{ teacher.age }}</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">الهاتف</label>
+                                    <p class="fs-5">{{ teacher.phone }}</p>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label text-muted">العنوان</label>
+                                    <p class="fs-5">{{ teacher.address }}</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label text-muted">البريد الإلكتروني</label>
+                                    <p class="fs-5">{{ teacher.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'teacher_edit' teacher.id %}" class="btn btn-warning me-2">
+                        <i class="fas fa-edit me-2"></i> تعديل البيانات
+                    </a>
+                    <a href="{% url 'teacher_delete' teacher.id %}" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i> حذف المعلم
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
+    

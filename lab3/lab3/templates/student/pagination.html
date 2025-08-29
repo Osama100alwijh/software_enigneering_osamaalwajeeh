@@ -1,0 +1,45 @@
+{# student/pagination.html #}
+{% if page_obj.has_other_pages %}
+<nav aria-label="ترقيم الصفحات">
+  <ul class="pagination justify-content-center mt-4">
+    {# زر الصفحة السابقة #}
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="السابق">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link" aria-hidden="true">&laquo;</span>
+      </li>
+    {% endif %}
+
+    {# أزرار أرقام الصفحات #}
+    {% for i in page_obj.paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">{{ i }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {# زر الصفحة التالية #}
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="التالي">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link" aria-hidden="true">&raquo;</span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
